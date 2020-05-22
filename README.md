@@ -6,7 +6,7 @@ Note Application
 
 ![A Note Application created with Flutter](https://cdn-images-1.medium.com/max/1600/1*W_PmxxJyFkpl3ktHrqpMHg.gif)
 
-##Features
+## Features
 
 - Beautiful UI
 - Create and Save a Note
@@ -25,8 +25,9 @@ A new Flutter application.
 This project is a starting point for a Flutter application.
 
 
-##Requirements 
--Android Studio
+## Requirements 
+
+- Android Studio
 _ Flutter Sdk [click here](https://flutter.dev/docs/get-started/install)
 - A Fair Understanding of Flutter Concepts. You can get started by checking the official Flutter website to get started [here](https://flutter.dev/docs/get-started/codelab)
 
