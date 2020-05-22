@@ -28,7 +28,7 @@ This project is a starting point for a Flutter application.
 ## Requirements 
 
 - Android Studio
-_ Flutter Sdk [click here](https://flutter.dev/docs/get-started/install)
+- Flutter Sdk [click here](https://flutter.dev/docs/get-started/install)
 - A Fair Understanding of Flutter Concepts. You can get started by checking the official Flutter website to get started [here](https://flutter.dev/docs/get-started/codelab)
 
 A few resources to get you started if this is your first Flutter project:
