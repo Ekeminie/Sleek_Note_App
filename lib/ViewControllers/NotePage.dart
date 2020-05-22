@@ -10,12 +10,16 @@ import 'package:flutter/services.dart';
 class NotePage extends StatefulWidget {
   final Note noteInEditing;
 
+  //constructor that takes a Note object
   NotePage(this.noteInEditing);
+
+
   @override
   _NotePageState createState() => _NotePageState();
 }
 
 class _NotePageState extends State<NotePage> {
+
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
   var note_color;
@@ -142,6 +146,7 @@ class _NotePageState extends State<NotePage> {
     ;
   }
 
+  //returns a new text with "New Note" or "Edit Note" based on the value of _editableNote.id
   Widget _pageTitle() {
     return Text(_editableNote.id == -1 ? "New Note" : "Edit Note");
   }
@@ -205,6 +210,7 @@ class _NotePageState extends State<NotePage> {
     return actions;
   }
 
+  //responsible for opening the moreOptionsSheet Class and its widgets
   void bottomSheet(BuildContext context) {
     showModalBottomSheet(
         context: context,
@@ -218,6 +224,7 @@ class _NotePageState extends State<NotePage> {
         });
   }
 
+  //saves data as the user makes changes and saves and updates this value whenever it changes
   void _persistData() {
     updateNoteObject();
 
@@ -262,6 +269,7 @@ class _NotePageState extends State<NotePage> {
     }
   }
 
+  //Handles callbacks on the MoreOptionsSheet
   void bottomSheetOptionTappedHandler(moreOptions tappedOption) {
     print("option tapped: $tappedOption");
     switch (tappedOption) {
@@ -288,6 +296,7 @@ class _NotePageState extends State<NotePage> {
     }
   }
 
+  //deletes a saved note from the database when the user selects delete from the bottom sheet
   void _deleteNote(BuildContext context) {
     if (_editableNote.id != -1) {
       showDialog(
@@ -318,24 +327,26 @@ class _NotePageState extends State<NotePage> {
     }
   }
 
+  //responsible for responding whenever the user selects on a color by changing the color and saving the color
+  //value to the database
   void _changeColor(Color newColorSelected) {
     print("note color changed");
     setState(() {
       note_color = newColorSelected;
       _editableNote.note_color = newColorSelected;
     });
-    _persistColorChange();
-    CentralStation.updateNeeded = true;
-  }
-
-  void _persistColorChange() {
     if (_editableNote.id != -1) {
       var noteDB = NotesDBHandler();
       _editableNote.note_color = note_color;
       noteDB.insertNote(_editableNote, false);
     }
+    CentralStation.updateNeeded = true;
   }
 
+
+
+  //this function is called whenever the user clicks on the plus icon to add a new note from
+  //an already existing note.
   void _saveAndStartNewNote(BuildContext context){
     _persistenceTimer.cancel();
     var emptyNote = new Note(-1, "", "", DateTime.now(), DateTime.now(), Colors.white);
@@ -351,6 +362,9 @@ class _NotePageState extends State<NotePage> {
     _persistData();
     return true;
   }
+
+  //build a pop up for whenever a user clicks on the archive icon,
+  // this prompt asks the user if he is sure before proceeding to archive the note
 
   void _archivePopup(BuildContext context) {
     if (_editableNote.id != -1) {
@@ -375,12 +389,14 @@ class _NotePageState extends State<NotePage> {
     }
   }
 
+  //this function is called whenever a user clicks on a new note but no value is entered
   void _exitWithoutSaving(BuildContext context) {
     _persistenceTimer.cancel();
     CentralStation.updateNeeded = false;
     Navigator.of(context).pop();
   }
 
+  //responsible for archiving the note
   void _archiveThisNote(BuildContext context) {
     Navigator.of(context).pop();
     // set archived flag to true and send the entire note object in the database to be updated
@@ -396,6 +412,9 @@ class _NotePageState extends State<NotePage> {
     Scaffold.of(context).showSnackBar(new SnackBar(content: Text("deleted")));
   }
 
+
+  //this function duplicates a note with the selected id whenever
+  //copy is tapped on from the bottom sheet
   void _copy(){
     var noteDB = NotesDBHandler();
     Note copy = Note(-1,
@@ -416,7 +435,7 @@ class _NotePageState extends State<NotePage> {
   }
 
 
-
+//undo changes made to the text using FLutter's TextController method
   void _undo() {
     _titleController.text = _titleFrominitial;// widget.noteInEditing.title;
     _contentController.text = _contentFromInitial;// widget.noteInEditing.content;

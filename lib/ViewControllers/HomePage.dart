@@ -46,6 +46,8 @@ class _HomePageState extends State<HomePage> {
     return Container(child: StaggeredGridPage(notesViewType: notesViewType,));
   }
 
+  //Contains a FlatButton widget that is responsible for calling the _newNoteTapped function to take us to
+  //a new page to create a new note
   Widget _bottomBar() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -61,13 +63,14 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
+/* responsible for creating a new route using the Navigator.push class*/
   void _newNoteTapped(BuildContext ctx) {
     // "-1" id indicates the note is not new
     var emptyNote = new Note(-1, "", "", DateTime.now(), DateTime.now(), Colors.white);
     Navigator.push(ctx,MaterialPageRoute(builder: (ctx) => NotePage(emptyNote)));
   }
 
+  //sets the viewType to either grid or list based on the noteViewType value
   void _toggleViewType(){
     setState(() {
       CentralStation.updateNeeded = true;

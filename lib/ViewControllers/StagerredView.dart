@@ -16,9 +16,14 @@ class StaggeredGridPage extends StatefulWidget {
 
 class _StaggeredGridPageState extends State<StaggeredGridPage> {
 
+
+  //instance of our Sqlite class
   var  noteDB = NotesDBHandler();
+
+  //a map which will be used in inflating our staggered grid view
   List<Map<String, dynamic>> _allNotesInQueryResult = [];
   viewType notesViewType ;
+
 
   @override
   void initState() {
@@ -78,7 +83,7 @@ class _StaggeredGridPageState extends State<StaggeredGridPage> {
     return EdgeInsets.only(left: padding, right: padding, top: top_bottom, bottom: top_bottom);
   }
 
-
+//gets the values of the notes for each of the fields in the grid
   MyStaggeredTile _tileGenerator(int i){
     return MyStaggeredTile(  Note(
         _allNotesInQueryResult[i]["id"],
@@ -91,6 +96,7 @@ class _StaggeredGridPageState extends State<StaggeredGridPage> {
   }
 
 
+  //carries out the queries to get the notes from the database
   void retrieveAllNotesFromDatabase() {
     // queries for all the notes from the database ordered by latest edited note. excludes archived notes.
     var _testData = noteDB.selectAllNotes();
