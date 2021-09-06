@@ -6,14 +6,14 @@ import '../Model/Utility.dart';
 enum moreOptions { delete, share, copy }
 
 class MoreOptionsSheet extends StatefulWidget {
-  final Color color;
-  final DateTime date_last_edited;
-  final void Function(Color) callBackColorTapped;
+  final Color? color;
+  final DateTime? date_last_edited;
+  final void Function(Color)? callBackColorTapped;
 
-  final void Function(moreOptions) callBackOptionTapped;
+  final void Function(moreOptions)? callBackOptionTapped;
 
   const MoreOptionsSheet(
-      {Key key,
+      {Key? key,
         this.color,
         this.date_last_edited,
         this.callBackColorTapped,
@@ -43,21 +43,21 @@ class _MoreOptionsSheetState extends State<MoreOptionsSheet> {
               title: new Text('Delete permanently'),
               onTap: () {
                 Navigator.of(context).pop();
-                widget.callBackOptionTapped(moreOptions.delete);
+                widget.callBackOptionTapped!(moreOptions.delete);
               }),
           new ListTile(
               leading: new Icon(Icons.content_copy),
               title: new Text('Duplicate'),
               onTap: () {
                 Navigator.of(context).pop();
-                widget.callBackOptionTapped(moreOptions.copy);
+                widget.callBackOptionTapped!(moreOptions.copy);
               }),
           new ListTile(
               leading: new Icon(Icons.share),
               title: new Text('Share'),
               onTap: () {
                 Navigator.of(context).pop();
-                widget.callBackOptionTapped(moreOptions.share);
+                widget.callBackOptionTapped!(moreOptions.share);
               }),
           new Padding(
             padding: EdgeInsets.only(left: 10, right: 10),
@@ -78,7 +78,7 @@ class _MoreOptionsSheetState extends State<MoreOptionsSheet> {
                 height: 44,
                 child: Center(
                     child: Text(CentralStation.stringForDatetime(
-                        widget.date_last_edited))),
+                        widget.date_last_edited!))),
               )
             ],
             mainAxisAlignment: MainAxisAlignment.center,
@@ -89,10 +89,10 @@ class _MoreOptionsSheetState extends State<MoreOptionsSheet> {
     );
   }
 
-  void _changeColor(Color color) {
+  void _changeColor(Color? color) {
     setState(() {
       this.note_color = color;
-      widget.callBackColorTapped(color);
+      widget.callBackColorTapped!(color!);
     });
   }
 }

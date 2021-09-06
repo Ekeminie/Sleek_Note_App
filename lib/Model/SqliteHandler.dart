@@ -21,10 +21,10 @@ class NotesDBHandler {
   };
 
 
-  static Database _database;
+  static Database? _database;
 
 
-  Future<Database> get database async {
+  Future<Database?> get database async {
     if (_database != null)
       return _database;
 
@@ -72,14 +72,14 @@ class NotesDBHandler {
     return path;
   }
 
-  Future<int> insertNote(Note note, bool isNew) async {
+  Future<int?> insertNote(Note? note, bool isNew) async {
     // Get a reference to the database
-    final Database db = await database;
+    final Database db = await (database as FutureOr<Database>);
     print("insert called");
 
     // Insert the Notes into the correct table.
     await db.insert('notes',
-      isNew ? note.toMap(false) : note.toMap(true),
+      isNew ? note!.toMap(false) : note!.toMap(true),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
@@ -89,7 +89,7 @@ class NotesDBHandler {
           where: "is_archived = ?",
           whereArgs: [0],
           limit: 1);
-      int latestId = one.first["id"] as int;
+      int? latestId = one.first["id"] as int?;
       return latestId;
     }
     return note.id;
@@ -97,7 +97,7 @@ class NotesDBHandler {
 
 
   Future<bool> copyNote(Note note) async {
-    final Database db = await database;
+    final Database db = await (database as FutureOr<Database>);
     try {
       await db.insert("notes",note.toMap(false), conflictAlgorithm: ConflictAlgorithm.replace);
     } catch(Error) {
@@ -110,31 +110,38 @@ class NotesDBHandler {
 
   Future<bool> archiveNote(Note note) async {
     if (note.id != -1) {
-      final Database db = await database;
+      final Database db = await (database as FutureOr<Database>);
 
-      int idToUpdate = note.id;
+      int? idToUpdate = note.id;
 
       db.update("notes", note.toMap(true), where: "id = ?",
           whereArgs: [idToUpdate]);
+
+          return true;
     }
+
+    return false;
   }
 
   Future<bool> deleteNote(Note note) async {
+    var result = false;
     if(note.id != -1) {
-      final Database db = await database;
+      final Database db = await (database as FutureOr<Database>);
       try {
         await db.delete("notes",where: "id = ?",whereArgs: [note.id]);
-        return true;
+        result = true;
       } catch (Error){
         print("Error deleting ${note.id}: ${Error.toString()}");
-        return false;
+        result =  false;
       }
     }
+
+    return result;
   }
 
 
   Future<List<Map<String,dynamic>>> selectAllNotes() async {
-    final Database db = await database;
+    final Database db = await (database as FutureOr<Database>);
     // query all the notes sorted by last edited
     var data = await db.query("notes", orderBy: "date_last_edited desc",
         where: "is_archived = ?",

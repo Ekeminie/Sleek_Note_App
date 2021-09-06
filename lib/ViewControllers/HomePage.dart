@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
 
     return
       Scaffold(
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(brightness: Brightness.light,
           actions: _appBarActions(),
           elevation: 1,

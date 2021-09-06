@@ -9,7 +9,7 @@ import 'HomePage.dart';
 
 class StaggeredGridPage extends StatefulWidget {
   final notesViewType;
-  const StaggeredGridPage({Key key, this.notesViewType}) : super(key: key);
+  const StaggeredGridPage({Key? key, this.notesViewType}) : super(key: key);
   @override
   _StaggeredGridPageState createState() => _StaggeredGridPageState();
 }
@@ -22,7 +22,7 @@ class _StaggeredGridPageState extends State<StaggeredGridPage> {
 
   //a map which will be used in inflating our staggered grid view
   List<Map<String, dynamic>> _allNotesInQueryResult = [];
-  viewType notesViewType ;
+  viewType? notesViewType ;
 
 
   @override

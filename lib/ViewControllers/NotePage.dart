@@ -27,16 +27,16 @@ class _NotePageState extends State<NotePage> {
   final _titleFocus = FocusNode();
   final _contentFocus = FocusNode();
 
-  String _titleFrominitial ;
-  String _contentFromInitial;
-  DateTime _lastEditedForUndo;
+  String? _titleFrominitial ;
+  String? _contentFromInitial;
+  DateTime? _lastEditedForUndo;
 
 
 
   var _editableNote;
 
   // the timer variable responsible to call persistData function every 5 seconds and cancel the timer when the page pops.
-  Timer _persistenceTimer;
+  late Timer _persistenceTimer;
 
   final GlobalKey<ScaffoldState> _globalKey = new GlobalKey<ScaffoldState>();
 
@@ -232,7 +232,7 @@ class _NotePageState extends State<NotePage> {
       var noteDB = NotesDBHandler();
 
       if (_editableNote.id == -1) {
-        Future<int> autoIncrementedId =
+        Future<int?> autoIncrementedId =
         noteDB.insertNote(_editableNote, true); // for new note
         // set the id of the note from the database after inserting the new note so for next persisting
         autoIncrementedId.then((value) {
@@ -297,10 +297,10 @@ class _NotePageState extends State<NotePage> {
   }
 
   //deletes a saved note from the database when the user selects delete from the bottom sheet
-  void _deleteNote(BuildContext context) {
+  void _deleteNote(BuildContext? context) {
     if (_editableNote.id != -1) {
       showDialog(
-          context: context,
+          context: context!,
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text("Confirm ?"),
@@ -429,7 +429,7 @@ class _NotePageState extends State<NotePage> {
     status.then((query_success){
       if (query_success){
         CentralStation.updateNeeded = true;
-        Navigator.of(_globalKey.currentContext).pop();
+        Navigator.of(_globalKey.currentContext!).pop();
       }
     });
   }
@@ -437,8 +437,8 @@ class _NotePageState extends State<NotePage> {
 
 //undo changes made to the text using FLutter's TextController method
   void _undo() {
-    _titleController.text = _titleFrominitial;// widget.noteInEditing.title;
-    _contentController.text = _contentFromInitial;// widget.noteInEditing.content;
+    _titleController.text = _titleFrominitial!;// widget.noteInEditing.title;
+    _contentController.text = _contentFromInitial!;// widget.noteInEditing.content;
     _editableNote.date_last_edited = _lastEditedForUndo;// widget.noteInEditing.date_last_edited;
   }
 }

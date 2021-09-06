@@ -15,10 +15,10 @@ class MyStaggeredTile extends StatefulWidget {
 
 class _MyStaggeredTileState extends State<MyStaggeredTile> {
 
-  String _content ;
-  double _fontSize ;
-  Color tileColor ;
-  String title;
+  String? _content ;
+  double? _fontSize ;
+  Color? tileColor ;
+  String? title;
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +49,12 @@ class _MyStaggeredTileState extends State<MyStaggeredTile> {
 
     List<Widget> contentsOfTiles = [];
 
-    if(widget.note.title.length != 0) {
+    if(widget.note.title!.length != 0) {
       contentsOfTiles.add(
         AutoSizeText(
-          title,
+          title!,
           style: TextStyle(fontSize: _fontSize,fontWeight: FontWeight.bold),
-          maxLines: widget.note.title.length == 0 ? 1 : 3,
+          maxLines: widget.note.title!.length == 0 ? 1 : 3,
           textScaleFactor: 1.5,
         ),
       );
@@ -63,7 +63,7 @@ class _MyStaggeredTileState extends State<MyStaggeredTile> {
 
     contentsOfTiles.add(
         AutoSizeText(
-          _content,
+          _content!,
           style: TextStyle(fontSize: _fontSize),
           maxLines: 10,
           textScaleFactor: 1.5,
@@ -79,7 +79,7 @@ class _MyStaggeredTileState extends State<MyStaggeredTile> {
 
 
   double _determineFontSizeForContent() {
-    int charCount = _content.length + widget.note.title.length ;
+    int charCount = _content!.length + widget.note.title!.length ;
     double fontSize = 20 ;
     if (charCount > 110 ) { fontSize = 12; }
     else if (charCount > 80) {  fontSize = 14;  }
